@@ -29,18 +29,18 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/main_content_padding" >
+            android:padding="@dimen/main_content_padding">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_title"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/Primary"
+                app:hintTextColor="@color/Primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:boxStrokeColor="@color/Primary"
-                app:hintTextColor="@color/Primary" >
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/et_title"
@@ -59,11 +59,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_screen_til_marginTop"
+                app:boxStrokeColor="@color/Primary"
+                app:hintTextColor="@color/Primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_title"
-                app:boxStrokeColor="@color/Primary"
-                app:hintTextColor="@color/Primary" >
+                app:layout_constraintTop_toBottomOf="@+id/til_title">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/et_description"
@@ -82,20 +82,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_screen_til_marginTop"
+                app:boxStrokeColor="@color/Primary"
+                app:hintTextColor="@color/Primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_description"
-                app:boxStrokeColor="@color/Primary"
-                app:hintTextColor="@color/Primary" >
+                app:layout_constraintTop_toBottomOf="@+id/til_description">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/et_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/edit_text_hint_date"
-                    android:inputType="text"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
+                    android:hint="@string/edit_text_hint_date"
+                    android:inputType="text"
                     android:textColor="@color/primary_text_color"
                     android:textColorHint="@color/secondary_text_color"
                     android:textSize="@dimen/edit_text_text_size" />
@@ -107,11 +107,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_screen_til_marginTop"
+                app:boxStrokeColor="@color/Primary"
+                app:hintTextColor="@color/Primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_date"
-                app:boxStrokeColor="@color/Primary"
-                app:hintTextColor="@color/Primary" >
+                app:layout_constraintTop_toBottomOf="@+id/til_date">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/et_location"
@@ -170,9 +170,9 @@
                 android:text="@string/btn_text_save"
                 android:textColor="@color/white_color"
                 android:textSize="@dimen/btn_text_size"
+                app:backgroundTint="@color/button_background_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:backgroundTint="@color/button_background_color"
                 app:layout_constraintTop_toBottomOf="@+id/iv_place_image" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
