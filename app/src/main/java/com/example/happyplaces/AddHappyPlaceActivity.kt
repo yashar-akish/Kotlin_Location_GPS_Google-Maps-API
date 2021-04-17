@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -72,10 +73,7 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
                 pictureDialog.setItems(pictureDialogItems) { _, which ->
                     when (which) {
                         0 -> choosePhotoFromGallery()
-                        1 -> Toast.makeText(
-                            this@AddHappyPlaceActivity,
-                            "Camera selection coming soon...", Toast.LENGTH_SHORT
-                        ).show()
+                        1 -> takePhotoFromCamera()
                     }
                 }
                 pictureDialog.show()
@@ -109,7 +107,7 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
                 if (report!!.areAllPermissionsGranted()) {
 
                     /**
-                     * Intent to Gallery
+                     *      Intent to Gallery for selecting an image "Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI"
                      */
                     val galleryIntent =
                         Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -132,7 +130,7 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
             .setPositiveButton("GO TO SETTINGS") { _, _ ->
                 try {
                     /**
-                     * going to application settings using (( INTENT ))
+                     * going to application settings using (( INTENT )) "Settings.ACTION_APPLICATION_DETAILS_SETTINGS"
                      */
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                     val uri = Uri.fromParts("package", packageName, null)
@@ -146,12 +144,33 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
             }.show()
     }
 
-    /**
-     * Constant Values:
-     */
-    companion object {
-        private const val GALLERY = 1
+    private fun takePhotoFromCamera(){
+        Dexter.withContext(this).withPermissions(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+        ).withListener(object : MultiplePermissionsListener {
+            override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                if (report!!.areAllPermissionsGranted()) {
+
+                    /**
+                     *      Intent to Camera to take a photo "MediaStore.ACTION_IMAGE_CAPTURE"
+                     */
+                    val galleryIntent =
+                        Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(galleryIntent, CAMERA)
+                }
+            }
+
+            override fun onPermissionRationaleShouldBeShown(
+                permissions: MutableList<PermissionRequest>,
+                token: PermissionToken
+            ) {
+                showRationalDialogForPermission()
+            }
+        }).onSameThread().check()
     }
+
 
     /**
      *
@@ -161,6 +180,9 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
+            /**
+             *  storing selected image from gallery by intentForResult
+             */
             if (requestCode == GALLERY) {
                 if (data != null) {
                     val contentURI = data.data
@@ -177,7 +199,23 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
                         ).show()
                     }
                 }
+            }else if (requestCode == CAMERA) {
+                /**
+                 *  storing selected image from gallery by intentForResult
+                 */
+                val thumbnail : Bitmap = data!!.extras!!.get("data") as Bitmap
+                iv_place_image.setImageBitmap(thumbnail)
             }
         }
+    }
+
+
+
+    /**
+     * Constant Values:
+     */
+    companion object {
+        private const val GALLERY = 1
+        private const val CAMERA = 2
     }
 }
