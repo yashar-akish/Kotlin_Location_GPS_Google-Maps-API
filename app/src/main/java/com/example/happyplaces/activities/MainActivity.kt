@@ -39,6 +39,14 @@ class MainActivity : AppCompatActivity() {
 
         rv_happy_places_list.setHasFixedSize(true)
         rv_happy_places_list.adapter = placesAdapter
+
+        placesAdapter.setOnClickListener(object : HappyPlacesAdapter.OnClickListener {
+            override fun onClick(position: Int, model: HappyPlaceModel) {
+                val intent = Intent(this@MainActivity, HappyPlaceDetailActivity::class.java)
+                intent.putExtra(EXTRA_PLACE_DETAILS, model)
+                startActivity(intent)
+            }
+        })
     }
 
     private fun getHappyPlacesListFromLocalDB() {
@@ -72,5 +80,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         var ADD_PLACE_ACTIVITY_REQUEST_CODE = 1
+        var EXTRA_PLACE_DETAILS = "extra_place_details"
     }
 }
