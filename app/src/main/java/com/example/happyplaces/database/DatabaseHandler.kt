@@ -49,6 +49,7 @@ class DatabaseHandler(context: Context) :
 
     /**
      *  inserting data in table:
+     *  (insert return Long)
      */
     fun addHappyPlaces(happyPlaces: HappyPlaceModel): Long {
 
@@ -66,6 +67,30 @@ class DatabaseHandler(context: Context) :
         val result = db.insert(TABLE_HAPPY_PLACE, null, contentValues)
         db.close()
         return result
+    }
+
+    /**
+     *  update table
+     *  (update return Int)
+     */
+    fun updateHappyPlace(happyPlace: HappyPlaceModel): Int {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(KEY_TITLE, happyPlace.title)
+        contentValues.put(KEY_IMAGE, happyPlace.image)
+        contentValues.put(
+            KEY_DESCRIPTION,
+            happyPlace.description
+        )
+        contentValues.put(KEY_DATE, happyPlace.date)
+        contentValues.put(KEY_LOCATION, happyPlace.location)
+        contentValues.put(KEY_LATITUDE, happyPlace.latitude)
+        contentValues.put(KEY_LONGITUDE, happyPlace.longitude)
+
+        val success =
+            db.update(TABLE_HAPPY_PLACE, contentValues, KEY_ID + "=" + happyPlace.id, null)
+        db.close()
+        return success
     }
 
     /**

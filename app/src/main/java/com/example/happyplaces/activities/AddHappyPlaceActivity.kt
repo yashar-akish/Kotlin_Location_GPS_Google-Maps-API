@@ -143,7 +143,7 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
                          *      saving on database
                          */
                         val happyPlaceModel = HappyPlaceModel(
-                            0,
+                            if (mHappyPlaceDetails == null) 0 else mHappyPlaceDetails!!.id, //id for add or update
                             et_title.text.toString(),
                             saveImageToInternalStorage.toString(),
                             et_description.text.toString(),
@@ -153,14 +153,25 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
                             mLongitude
                         )
                         val dbHandler = DatabaseHandler(this)
-                        val addHappyPlace = dbHandler.addHappyPlaces(happyPlaceModel)
+                        if (mHappyPlaceDetails == null) {
+                            val addHappyPlace = dbHandler.addHappyPlaces(happyPlaceModel)
 
-                        if (addHappyPlace > 0) {
-                            /**
-                             * to notify the main activity about new item which is added
-                             */
-                            setResult(Activity.RESULT_OK)
-                            finish()
+                            if (addHappyPlace > 0) {
+                                /**
+                                 * to notify the main activity about new item which is added
+                                 */
+                                setResult(Activity.RESULT_OK)
+                                finish()
+                            }
+                        } else {
+                            val updateHappyPlace = dbHandler.updateHappyPlace(happyPlaceModel)
+                            if (updateHappyPlace > 0) {
+                                /**
+                                 * to notify the main activity about new item which is updated
+                                 */
+                                setResult(Activity.RESULT_OK)
+                                finish()
+                            }
                         }
                     }
                 }
